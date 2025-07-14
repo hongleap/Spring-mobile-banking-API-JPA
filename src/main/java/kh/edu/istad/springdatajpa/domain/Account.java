@@ -19,24 +19,23 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(unique = true, nullable = false, length = 32)
-    private String actNo;
+    @Column(nullable=false, unique=true , length=20)
+    private String accountNumber;
 
+    @Column(nullable=false, length=25 )
+    private Double balance;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable=false,length=25)
+    private String accountType;
+
+    @Column(nullable=false, length=25)
     private String actCurrency;
 
+    @Column(nullable=false)
+    private Boolean isDeleted = false;
 
-    @Column(nullable = false)
-    private BigDecimal balance;
-
-
-    @Column(nullable = false)
-    private Boolean isDeleted;
-
-
-    @ManyToOne // many customers have one account
-    @JoinColumn(name = "cust_id") // change name table relationship
+    @ManyToOne
+    @JoinColumn(name="cust_id",referencedColumnName = "id")
     private Customer customer;
 
 }

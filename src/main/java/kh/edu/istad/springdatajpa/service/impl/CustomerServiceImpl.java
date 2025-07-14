@@ -2,6 +2,8 @@ package kh.edu.istad.springdatajpa.service.impl;
 import kh.edu.istad.springdatajpa.domain.Customer;
 import kh.edu.istad.springdatajpa.dto.CreateCustomerRequest;
 import kh.edu.istad.springdatajpa.dto.CustomerResponse;
+import kh.edu.istad.springdatajpa.dto.UpdateCustomerRequest;
+import kh.edu.istad.springdatajpa.mapper.CustomerMapper;
 import kh.edu.istad.springdatajpa.repository.CustomerRepository;
 import kh.edu.istad.springdatajpa.service.CustomerService;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -18,17 +21,35 @@ import java.util.ArrayList;
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
+    private final CustomerMapper customerMapper;
+
+    @Override
+    public void deleteByPhoneNumber(String phoneNumber) {
+        Customer customer = customerRepository
+                .findByPhoneNumber(phoneNumber)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Phone number not found"));
+
+        customerRepository.delete(customer);
+    }
+
+    @Override
+    public CustomerResponse updateByPhoneNumber(String phoneNumber, UpdateCustomerRequest updateCustomerRequest) {
+        Customer customer = customerRepository
+                .findByPhoneNumber(phoneNumber)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Phone number not found"));
+
+        customerMapper.toCustomerPartially(updateCustomerRequest, customer);
+
+        customer = customerRepository.save(customer);
+
+        return customerMapper.fromCustomer(customer);
+    }
 
     @Override
     public CustomerResponse findByPhoneNumber(String phoneNumber) {
-
         return customerRepository
                 .findByPhoneNumber(phoneNumber)
-                .map(customer -> CustomerResponse.builder()
-                        .fullName(customer.getFullName())
-                        .gender(customer.getGender())
-                        .email(customer.getEmail())
-                        .build())
+                .map(customerMapper::fromCustomer)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer Phone Number  Not Found")) ;
     }
 
@@ -45,12 +66,7 @@ public class CustomerServiceImpl implements CustomerService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Phone number already exists");
         }
 
-        Customer customer = new Customer();
-        customer.setFullName(createCustomerRequest.fullName());
-        customer.setGender(createCustomerRequest.gender());
-        customer.setEmail(createCustomerRequest.email());
-        customer.setPhoneNumber(createCustomerRequest.phoneNumber());
-        customer.setRemark(createCustomerRequest.remark());
+        Customer customer = customerMapper.toCustomer(createCustomerRequest);
         customer.setIsDeleted(false);
         customer.setAccounts(new ArrayList<>());
 
@@ -60,10 +76,15 @@ public class CustomerServiceImpl implements CustomerService {
 
         log.info("Customer before save: {}", customer.getId());
 
-        return CustomerResponse.builder()
-                .fullName(customer.getFullName())
-                .gender(customer.getGender())
-                .email(customer.getEmail())
-                .build();
+        return customerMapper.fromCustomer(customer);
+    }
+
+    @Override
+    public List<CustomerResponse> findAllCustomers() {
+        List<Customer> customers = customerRepository.findAll();
+        return customers
+                .stream()
+                .map(customerMapper::fromCustomer)
+                .toList();
     }
 }
