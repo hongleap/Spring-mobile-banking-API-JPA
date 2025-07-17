@@ -10,10 +10,6 @@ public record CreateAccountRequest(
         @NotBlank
         String accountNumber,
 
-        @NotNull
-        @Positive
-        Double balance,
-
         @NotBlank
         String accountType,
 
@@ -21,9 +17,15 @@ public record CreateAccountRequest(
         String actCurrency,
 
         @NotNull
-        Boolean isDeleted,
+        @Positive
+        Double balance,
 
         @NotNull
-        Integer customerId
+        Boolean isDeleted,
+
+
+        @NotNull
+        String customerPhoneNumber
+
 ) {
 }

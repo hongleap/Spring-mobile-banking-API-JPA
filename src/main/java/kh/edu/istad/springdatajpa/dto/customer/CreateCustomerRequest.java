@@ -9,8 +9,11 @@ public record CreateCustomerRequest(
 
         @NotBlank(message = "Full Name is required")
         String gender,
+
         String email,
+
         String phoneNumber,
+
         String remark
 ) {
 }
