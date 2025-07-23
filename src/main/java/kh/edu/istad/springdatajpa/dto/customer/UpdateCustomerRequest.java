@@ -1,6 +1,4 @@
-package kh.edu.istad.springdatajpa.dto;
-
-import jakarta.validation.constraints.NotBlank;
+package kh.edu.istad.springdatajpa.dto.customer;
 
 public record UpdateCustomerRequest(
         String fullName,

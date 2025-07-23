@@ -1,12 +1,14 @@
 package kh.edu.istad.springdatajpa.service;
 
-import kh.edu.istad.springdatajpa.dto.CreateCustomerRequest;
-import kh.edu.istad.springdatajpa.dto.CustomerResponse;
-import kh.edu.istad.springdatajpa.dto.UpdateCustomerRequest;
+import kh.edu.istad.springdatajpa.dto.customer.CreateCustomerRequest;
+import kh.edu.istad.springdatajpa.dto.customer.CustomerResponse;
+import kh.edu.istad.springdatajpa.dto.customer.UpdateCustomerRequest;
 
 import java.util.List;
 
 public interface CustomerService {
+
+    void disableByPhoneNumber(String phoneNumber);
 
     void deleteByPhoneNumber(String phoneNumber);
 

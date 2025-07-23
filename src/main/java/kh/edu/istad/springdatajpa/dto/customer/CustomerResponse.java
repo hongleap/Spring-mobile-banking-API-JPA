@@ -1,4 +1,4 @@
-package kh.edu.istad.springdatajpa.dto;
+package kh.edu.istad.springdatajpa.dto.customer;
 
 import lombok.Builder;
 

@@ -25,9 +25,6 @@ public class Account {
     @Column(nullable=false, length=25 )
     private Double balance;
 
-    @Column(nullable=false,length=25)
-    private String accountType;
-
     @Column(nullable=false, length=25)
     private String actCurrency;
 
@@ -35,7 +32,17 @@ public class Account {
     private Boolean isDeleted = false;
 
     @ManyToOne
-    @JoinColumn(name="cust_id",referencedColumnName = "id")
+    @JoinColumn(name="cust_id",referencedColumnName = "Id")
     private Customer customer;
 
+    @ManyToOne(optional = false)
+    private AccountType accountType;
+
+    @OneToMany(mappedBy = "sender")
+    private List<Transaction> transaction;
+
+    private BigDecimal overLimit;
+
+    @Column(nullable = false)
+    private Boolean isHide;
 }

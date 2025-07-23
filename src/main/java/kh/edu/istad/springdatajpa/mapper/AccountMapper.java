@@ -1,12 +1,10 @@
 package kh.edu.istad.springdatajpa.mapper;
 
 import kh.edu.istad.springdatajpa.domain.Account;
-import kh.edu.istad.springdatajpa.dto.AccountResponse;
-import kh.edu.istad.springdatajpa.dto.UpdateAccountRequest;
-import org.mapstruct.BeanMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.NullValuePropertyMappingStrategy;
+import kh.edu.istad.springdatajpa.dto.account.AccountResponse;
+import kh.edu.istad.springdatajpa.dto.account.CreateAccountRequest;
+import kh.edu.istad.springdatajpa.dto.account.UpdateAccountRequest;
+import org.mapstruct.*;
 
 @Mapper(componentModel = "spring")
 public interface AccountMapper {
@@ -16,5 +14,9 @@ public interface AccountMapper {
 
     AccountResponse fromAccount(Account account);
 
-    Account toAccount(AccountResponse accountResponse);
+    @Mapping(target = "actCurrency", ignore = true)
+    @Mapping(target = "accountType", ignore = true)
+    Account toAccount(CreateAccountRequest createAccountRequest);
+
+//    Account fromCreateRequestToAccount(CreateAccountRequest createAccountRequest);
 }

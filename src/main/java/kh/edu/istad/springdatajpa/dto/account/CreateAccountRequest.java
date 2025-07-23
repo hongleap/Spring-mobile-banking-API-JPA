@@ -1,8 +1,11 @@
-package kh.edu.istad.springdatajpa.dto;
+package kh.edu.istad.springdatajpa.dto.account;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import kh.edu.istad.springdatajpa.util.CurrencyUtil;
+
+import java.math.BigDecimal;
 
 
 public record CreateAccountRequest(
@@ -10,22 +13,24 @@ public record CreateAccountRequest(
         @NotBlank
         String accountNumber,
 
-        @NotBlank
-        String accountType,
-
-        @NotBlank
-        String actCurrency,
-
         @NotNull
         @Positive
-        Double balance,
+        BigDecimal balance,
+
+        @NotBlank
+        CurrencyUtil actCurrency,
 
         @NotNull
         Boolean isDeleted,
 
-
         @NotNull
-        String customerPhoneNumber
+        Integer customerId,
+
+        @NotBlank
+        String segment,
+
+        String phoneNumber,
+        String accountType
 
 ) {
 }

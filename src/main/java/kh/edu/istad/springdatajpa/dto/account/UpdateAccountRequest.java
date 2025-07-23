@@ -1,8 +1,7 @@
-package kh.edu.istad.springdatajpa.dto;
+package kh.edu.istad.springdatajpa.dto.account;
 
 public record UpdateAccountRequest(
         Double balance,
-        String accountType,
         String actCurrency
 ) {
 }

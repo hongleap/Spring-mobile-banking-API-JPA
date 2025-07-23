@@ -1,7 +1,11 @@
 package kh.edu.istad.springdatajpa.repository;
 
 import kh.edu.istad.springdatajpa.domain.KYC;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 
-public interface KYCRepository extends JpaRepository<KYC, Integer> {
+import java.util.Optional;
+
+public interface KYCRepository extends CrudRepository<KYC, Integer> {
+    boolean existsByNationalCardId(String nationalCardId);
+    Optional<KYC> findByCustomerId(Integer customerId);
 }

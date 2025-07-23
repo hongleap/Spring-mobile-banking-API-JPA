@@ -1,12 +1,9 @@
 package kh.edu.istad.springdatajpa.mapper;
 import kh.edu.istad.springdatajpa.domain.Customer;
-import kh.edu.istad.springdatajpa.dto.CreateCustomerRequest;
-import kh.edu.istad.springdatajpa.dto.CustomerResponse;
-import kh.edu.istad.springdatajpa.dto.UpdateCustomerRequest;
-import org.mapstruct.BeanMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.NullValueMappingStrategy;
+import kh.edu.istad.springdatajpa.dto.customer.CreateCustomerRequest;
+import kh.edu.istad.springdatajpa.dto.customer.CustomerResponse;
+import kh.edu.istad.springdatajpa.dto.customer.UpdateCustomerRequest;
+import org.mapstruct.*;
 
 @Mapper(componentModel = "spring")
 public interface CustomerMapper {
@@ -18,5 +15,8 @@ public interface CustomerMapper {
 
     CustomerResponse fromCustomer(Customer customer);
 
+    @Mapping(source = "customerSegment", target = "customerSegment.customerSegment")
     Customer toCustomer(CreateCustomerRequest createCustomerRequest);
+
+//    Customer fromcreateRequestToCustomer(CreateCustomerRequest createCustomerRequest);
 }

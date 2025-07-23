@@ -1,9 +1,10 @@
 package kh.edu.istad.springdatajpa.controller;
 
 import jakarta.validation.Valid;
-import kh.edu.istad.springdatajpa.dto.AccountResponse;
-import kh.edu.istad.springdatajpa.dto.CreateAccountRequest;
-import kh.edu.istad.springdatajpa.dto.UpdateAccountRequest;
+import kh.edu.istad.springdatajpa.dto.account.AccountResponse;
+import kh.edu.istad.springdatajpa.dto.account.CreateAccountRequest;
+import kh.edu.istad.springdatajpa.dto.account.UpdateAccountRequest;
+import kh.edu.istad.springdatajpa.repository.AccountRepository;
 import kh.edu.istad.springdatajpa.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,11 +19,12 @@ import java.util.List;
 public class AccountController {
 
     private final AccountService accountService;
+    private final AccountRepository accountRepository;
 
     @PostMapping
     public ResponseEntity<AccountResponse> createAccount(@Valid @RequestBody CreateAccountRequest createAccountRequest) {
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(accountService.createAccount(createAccountRequest));
+        return ResponseEntity.status(HttpStatus.CREATED).body(accountService.createNew(createAccountRequest));
     }
 
     @GetMapping
@@ -30,32 +32,33 @@ public class AccountController {
         return accountService.findAllAccounts();
     }
 
-    @GetMapping("/{accountNumber}")
+    @GetMapping("{accountNumber}")
     public AccountResponse findAccountByAccountNumber(@PathVariable String accountNumber) {
         return accountService.findAccountByAccountNumber(accountNumber);
     }
 
-    @GetMapping("/{customerId}")
+    @GetMapping("/by-customer-id/{customerId}")
     public List<AccountResponse> findAccountByCustomerId(@PathVariable Integer customerId) {
         return accountService.findAccountByCustomerId(customerId);
     }
 
-    @DeleteMapping("/{accountNumber}")
-    public ResponseEntity<Void> deleteAccountByAccountNumber(@PathVariable String accountNumber) {
+    @DeleteMapping("{accountNumber}")
+    public ResponseEntity<?> deleteAccountByAccountNumber(@PathVariable String accountNumber) {
         accountService.deleteAccountByAccountNumber(accountNumber);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    @PutMapping("/{customerId}")
-    public ResponseEntity<Void> deleteAccountByCustomerId(@PathVariable Integer customerId) {
+    @DeleteMapping("/{customerId}")
+    public ResponseEntity<?> deleteAccountByCustomerId(@PathVariable Integer customerId) {
         accountService.deleteAccountByCustomerId(customerId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @PatchMapping("/{accountNumber}")
-    public void updateAccountByAccountNumber(@PathVariable  String accountNumber,
+    public AccountResponse updateAccountByAccountNumber(@PathVariable  String accountNumber,
                                              @RequestBody UpdateAccountRequest updateAccountRequest) {
         accountService.updateAccountByAccountNumber(accountNumber,updateAccountRequest);
+        return accountService.updateAccountByAccountNumber(accountNumber, updateAccountRequest);
     }
 
 }

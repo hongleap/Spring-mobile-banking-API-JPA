@@ -1,9 +1,9 @@
 package kh.edu.istad.springdatajpa.controller;
 
 import jakarta.validation.Valid;
-import kh.edu.istad.springdatajpa.dto.CreateCustomerRequest;
-import kh.edu.istad.springdatajpa.dto.CustomerResponse;
-import kh.edu.istad.springdatajpa.dto.UpdateCustomerRequest;
+import kh.edu.istad.springdatajpa.dto.customer.CreateCustomerRequest;
+import kh.edu.istad.springdatajpa.dto.customer.CustomerResponse;
+import kh.edu.istad.springdatajpa.dto.customer.UpdateCustomerRequest;
 import kh.edu.istad.springdatajpa.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,6 +17,12 @@ import java.util.List;
 public class CustomerController {
 
     private final CustomerService customerService;
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/{phoneNumber}")
+    public void disableByPhoneNumber(@PathVariable String phoneNumber) {
+        customerService.disableByPhoneNumber(phoneNumber);
+    }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{phoneNumber}")

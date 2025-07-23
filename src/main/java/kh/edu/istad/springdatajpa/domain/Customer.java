@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -17,6 +19,7 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     @Column(nullable = false)
     private String fullName;
 
@@ -25,6 +28,9 @@ public class Customer {
 
     @Column(unique = true)
     private String email;
+
+    @Column(nullable = false)
+    private LocalDate dob;
 
     @Column(unique = true)
     private String phoneNumber;
@@ -35,10 +41,13 @@ public class Customer {
     @Column(nullable = false)
     private Boolean isDeleted;
 
-    @OneToMany(mappedBy = "customer") // an account has many customers
+    @OneToMany(mappedBy = "customer")
     private List<Account> accounts;
 
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private KYC kyc;
+
+    @ManyToOne(optional = false)
+    private CustomerSegment customerSegment;
 }

@@ -10,7 +10,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
-
 public interface AccountRepository extends JpaRepository<Account, Integer> {
 
     boolean existsByAccountNumber(String accountNumber);
@@ -26,5 +25,10 @@ public interface AccountRepository extends JpaRepository<Account, Integer> {
     @Modifying
     @Transactional
     @Query("UPDATE Account a SET a.isDeleted = true WHERE a.accountNumber = :accountNumber")
-    int disableAccountByAccountNumber(@Param("accountNumber") String accountNumber);
+    int deleteAccountByAccountNumber(@Param("accountNumber") String accountNumber);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE Account a SET a.isDeleted = false WHERE a.accountNumber = :accountNumber")
+    int disableAccountByAccountNumber(String accountNumber);
 }

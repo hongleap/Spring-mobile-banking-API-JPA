@@ -1,14 +1,14 @@
 package kh.edu.istad.springdatajpa.service;
 
-import kh.edu.istad.springdatajpa.dto.AccountResponse;
-import kh.edu.istad.springdatajpa.dto.CreateAccountRequest;
-import kh.edu.istad.springdatajpa.dto.UpdateAccountRequest;
+import kh.edu.istad.springdatajpa.dto.account.AccountResponse;
+import kh.edu.istad.springdatajpa.dto.account.CreateAccountRequest;
+import kh.edu.istad.springdatajpa.dto.account.UpdateAccountRequest;
 
 import java.util.List;
 
 public interface AccountService {
 
-    AccountResponse createAccount(CreateAccountRequest createAccountRequest);
+    AccountResponse createNew(CreateAccountRequest createAccountRequest);
 
     List<AccountResponse> findAllAccounts();
 
@@ -20,5 +20,6 @@ public interface AccountService {
 
     void deleteAccountByCustomerId(Integer customerId);
 
-    void updateAccountByAccountNumber(String accountNumber, UpdateAccountRequest updateAccountRequest);
+    AccountResponse updateAccountByAccountNumber(String accountNumber, UpdateAccountRequest updateAccountRequest);
+
 }

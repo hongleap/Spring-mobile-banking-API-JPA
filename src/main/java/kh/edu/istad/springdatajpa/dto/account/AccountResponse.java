@@ -1,4 +1,4 @@
-package kh.edu.istad.springdatajpa.dto;
+package kh.edu.istad.springdatajpa.dto.account;
 
 import lombok.Builder;
 
@@ -6,7 +6,6 @@ import lombok.Builder;
 public record AccountResponse(
         String accountNumber,
         Double balance,
-        String accountType,
         String actCurrency
 ) {
 }
